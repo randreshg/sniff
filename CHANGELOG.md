@@ -354,5 +354,5 @@ sniff 2.0 provides direct replacements for APXM's inline environment detection:
 - Project uses hatchling build backend
 - Supports Python 3.10, 3.11, 3.12, 3.13
 
-[2.0.0]: https://github.com/randres/sniff/compare/v0.1.0...v2.0.0
-[0.1.0]: https://github.com/randres/sniff/releases/tag/v0.1.0
+[2.0.0]: https://github.com/randreshg/sniff/compare/v0.1.0...v2.0.0
+[0.1.0]: https://github.com/randreshg/sniff/releases/tag/v0.1.0
