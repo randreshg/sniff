@@ -1,13 +1,13 @@
 # 🐕 sniff
 
-[![Tests](https://github.com/randres/sniff/workflows/Tests/badge.svg)](https://github.com/randres/sniff/actions)
+[![Tests](https://github.com/randreshg/sniff/workflows/Tests/badge.svg)](https://github.com/randreshg/sniff/actions)
 [![PyPI version](https://badge.fury.io/py/sniff.svg)](https://pypi.org/project/sniff/)
 [![Python](https://img.shields.io/pypi/pyversions/sniff.svg)](https://pypi.org/project/sniff/)
-[![codecov](https://codecov.io/gh/randres/sniff/branch/main/graph/badge.svg)](https://codecov.io/gh/randres/sniff)
+[![codecov](https://codecov.io/gh/randreshg/sniff/branch/main/graph/badge.svg)](https://codecov.io/gh/randreshg/sniff)
 
 **sniff** detects your Python development environment - platform, Python envs (conda/venv/poetry), toolchains (CMake/Rust/LLVM), and project configuration. Like a packet sniffer for networks, it's a passive observer with no side effects.
 
-**[Documentation](https://sniff.readthedocs.io/)** • **[Source](https://github.com/randres/sniff)** • **[PyPI](https://pypi.org/project/sniff/)**
+**[Documentation](https://sniff.readthedocs.io/)** • **[Source](https://github.com/randreshg/sniff)** • **[PyPI](https://pypi.org/project/sniff/)**
 
 ---
 
@@ -83,7 +83,7 @@ Full documentation is available at **[sniff.readthedocs.io](https://sniff.readth
 - **[APXM](https://github.com/yourorg/apxm)** — MLIR compiler for agent workflows
 - **[Tully](https://github.com/yourorg/tully)** — Agent framework for domain workflows
 
-*Using sniff? [Let us know!](https://github.com/randres/sniff/discussions)*
+*Using sniff? [Let us know!](https://github.com/randreshg/sniff/discussions)*
 
 ---
 
@@ -91,8 +91,8 @@ Full documentation is available at **[sniff.readthedocs.io](https://sniff.readth
 
 Contributions welcome! See **[CONTRIBUTING.md](CONTRIBUTING.md)** for guidelines.
 
-- [Report a bug](https://github.com/randres/sniff/issues/new?template=bug_report.md)
-- [Request a feature](https://github.com/randres/sniff/issues/new?template=feature_request.md)
+- [Report a bug](https://github.com/randreshg/sniff/issues/new?template=bug_report.md)
+- [Request a feature](https://github.com/randreshg/sniff/issues/new?template=feature_request.md)
 
 ---
 

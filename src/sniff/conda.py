@@ -8,6 +8,15 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
+# Common conda installation paths (relative to $HOME, except /opt/conda).
+# Used as fallback when conda/mamba is not on PATH.
+COMMON_INSTALL_PATHS: tuple[str, ...] = (
+    "miniforge3",
+    "mambaforge",
+    "miniconda3",
+    "anaconda3",
+)
+
 
 @dataclass(frozen=True)
 class CondaEnvironment:
@@ -17,6 +26,23 @@ class CondaEnvironment:
     prefix: Path
     is_active: bool = False
     python_version: str | None = None
+
+
+@dataclass(frozen=True)
+class CondaValidation:
+    """Result of validating a conda environment."""
+
+    env_name: str
+    found: bool
+    prefix: Path | None = None
+    is_active: bool = False
+    missing_packages: tuple[str, ...] = ()
+    errors: tuple[str, ...] = ()
+
+    @property
+    def ok(self) -> bool:
+        """True when the environment exists and has all required packages."""
+        return self.found and len(self.missing_packages) == 0 and len(self.errors) == 0
 
 
 class CondaDetector:
@@ -108,6 +134,129 @@ class CondaDetector:
 
         except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
             return None
+
+    def find_prefix(
+        self, env_name: str, *, probe_common: bool = True
+    ) -> Path | None:
+        """Find a conda environment prefix by name.
+
+        Searches in order:
+        1. Currently active environment (if its name matches *env_name*).
+        2. ``conda env list --json`` / ``mamba env list --json``.
+        3. Common installation paths under ``$HOME`` and ``/opt/conda``
+           (only when *probe_common* is True).
+
+        Args:
+            env_name: Environment name to look for.
+            probe_common: When True, probe well-known filesystem paths as a
+                fallback when conda/mamba is not on PATH.
+
+        Returns:
+            Path to the environment prefix, or None if not found.
+        """
+        # 1. Active environment
+        active = self.find_active()
+        if active is not None and active.name == env_name:
+            return active.prefix
+
+        # 2. Query conda/mamba
+        env = self.find_environment(env_name)
+        if env is not None:
+            return env.prefix
+
+        # 3. Probe common paths
+        if probe_common:
+            for candidate in self._common_prefix_candidates(env_name):
+                try:
+                    if candidate.is_dir():
+                        return candidate
+                except OSError:
+                    continue
+
+        return None
+
+    def validate(
+        self,
+        env_name: str,
+        *,
+        required_packages: list[str] | None = None,
+    ) -> CondaValidation:
+        """Validate that a conda environment exists and contains required packages.
+
+        Args:
+            env_name: Environment name to validate.
+            required_packages: Package names that must be installed in the
+                environment (checked via ``conda list --json``).
+
+        Returns:
+            A CondaValidation result.
+        """
+        prefix = self.find_prefix(env_name)
+        if prefix is None:
+            return CondaValidation(
+                env_name=env_name,
+                found=False,
+                errors=(f"Environment '{env_name}' not found",),
+            )
+
+        active = self.find_active()
+        is_active = active is not None and active.prefix == prefix
+
+        if not required_packages:
+            return CondaValidation(
+                env_name=env_name,
+                found=True,
+                prefix=prefix,
+                is_active=is_active,
+            )
+
+        # Check installed packages
+        missing = self._check_packages(prefix, required_packages)
+
+        return CondaValidation(
+            env_name=env_name,
+            found=True,
+            prefix=prefix,
+            is_active=is_active,
+            missing_packages=tuple(missing),
+        )
+
+    # ------------------------------------------------------------------
+    # Private helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _common_prefix_candidates(env_name: str) -> list[Path]:
+        """Build a list of candidate paths for *env_name* under common install locations."""
+        home = Path.home()
+        candidates = [home / base / "envs" / env_name for base in COMMON_INSTALL_PATHS]
+        candidates.append(Path("/opt/conda/envs") / env_name)
+        return candidates
+
+    def _check_packages(self, prefix: Path, packages: list[str]) -> list[str]:
+        """Return names from *packages* that are NOT installed in *prefix*."""
+        import shutil
+
+        conda_cmd = shutil.which("conda") or shutil.which("mamba")
+        if not conda_cmd:
+            # Cannot verify -- assume all missing
+            return list(packages)
+
+        try:
+            result = subprocess.run(
+                [conda_cmd, "list", "--prefix", str(prefix), "--json"],
+                capture_output=True,
+                text=True,
+                timeout=self.timeout,
+                check=False,
+            )
+            if result.returncode != 0:
+                return list(packages)
+
+            installed = {pkg["name"] for pkg in json.loads(result.stdout)}
+            return [p for p in packages if p not in installed]
+        except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError, KeyError):
+            return list(packages)
 
     def _get_python_version(self, prefix: Path) -> str | None:
         """Get Python version in a conda environment."""

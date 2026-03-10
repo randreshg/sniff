@@ -6,7 +6,7 @@ Thank you for your interest in contributing to sniff!
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/randres/sniff.git
+git clone https://github.com/randreshg/sniff.git
 cd sniff
 ```
 

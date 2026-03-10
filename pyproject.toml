@@ -4,10 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sniff"
-version = "0.1.0"
+version = "2.0.0"
 description = "Sniff out your Python development environment"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
     { name = "Randres Herrera", email = "randres2011@gmail.com" },
@@ -22,10 +22,11 @@ keywords = [
     "developer-tools",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -34,10 +35,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/randres/sniff"
+Homepage = "https://github.com/randreshg/sniff"
 Documentation = "https://sniff.readthedocs.io"
-Repository = "https://github.com/randres/sniff"
-Issues = "https://github.com/randres/sniff/issues"
+Repository = "https://github.com/randreshg/sniff"
+Issues = "https://github.com/randreshg/sniff/issues"
 
 [project.optional-dependencies]
 dev = [

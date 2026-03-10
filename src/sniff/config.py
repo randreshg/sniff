@@ -10,7 +10,7 @@ from typing import Any
 if sys.version_info >= (3, 11):
     import tomllib
 else:
-    # Fallback for Python 3.10 (though we require 3.11+)
+    # Fallback for Python 3.10
     try:
         import tomli as tomllib  # type: ignore
     except ImportError:
