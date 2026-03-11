@@ -5,9 +5,9 @@
 [![Python](https://img.shields.io/pypi/pyversions/sniff.svg)](https://pypi.org/project/sniff/)
 [![codecov](https://codecov.io/gh/randreshg/sniff/branch/main/graph/badge.svg)](https://codecov.io/gh/randreshg/sniff)
 
-**sniff: The environment-aware CLI framework for Python**
+**sniff: Environment detection + CLI framework for Python**
 
-Detect your development environment -- platform, Python envs, toolchains, hardware -- then build polished CLIs on top of it. Like a packet sniffer for networks, sniff is a passive observer with no side effects.
+Detect your development environment — platform, Python envs, toolchains, hardware — then build polished CLIs on top of it. Sniff is both a **detection library** (passive, no side effects) and a **CLI framework** (Rich + Typer, styling, errors, progress, config).
 
 **[Documentation](https://sniff.readthedocs.io/)** | **[Source](https://github.com/randreshg/sniff)** | **[PyPI](https://pypi.org/project/sniff/)**
 
@@ -302,14 +302,14 @@ if not diff.is_compatible():
 
 - [Getting Started](docs/getting-started.md) -- Quick introduction
 - [API Reference](docs/api/index.md) -- Complete API docs for all modules
-- [Architecture](docs/ARCHITECTURE_V2.md) -- How sniff works internally
+- [Architecture](docs/architecture.md) — How sniff is organized
 
 ### CLI Framework (New in 3.0)
 
 - [ExecutionContext API](docs/EXECUTIONCONTEXT.md) -- Complete environment capture
 - [sniff.Typer Guide](docs/TYPER_INTEGRATION.md) -- CLI framework integration
 - [Migration Guide](docs/MIGRATION_2.1.md) -- Upgrading from earlier versions
-- [Examples](docs/EXAMPLES.md) -- APXM, Tully, and more
+- [Examples](docs/examples.md) — APXM, Tully, and more
 
 ### API Reference by Module
 
@@ -332,7 +332,7 @@ if not diff.is_compatible():
 
 ## Contributing
 
-Contributions welcome! See **[CONTRIBUTING.md](CONTRIBUTING.md)** for guidelines.
+Contributions welcome! See **[contributing.md](docs/contributing.md)** for guidelines.
 
 - [Report a bug](https://github.com/randreshg/sniff/issues/new?template=bug_report.md)
 - [Request a feature](https://github.com/randreshg/sniff/issues/new?template=feature_request.md)
